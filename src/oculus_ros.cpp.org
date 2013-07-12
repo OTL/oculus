@@ -1,0 +1,54 @@
+#include <oculus_ros/oculus_ros.h>
+#include <iostream>
+
+namespace oculus_ros {
+
+OculusRos::OculusRos() {
+}
+
+void OculusRos::init() {
+	System::Init();
+
+	pManager = *DeviceManager::Create();
+	pHMD = *pManager->EnumerateDevices<HMDDevice>().CreateDevice();
+
+	if (pHMD) {
+		InfoLoaded = pHMD->GetDeviceInfo(&Info);
+		pSensor = *pHMD->GetSensor();
+	} else {
+		pSensor = *pManager->EnumerateDevices<SensorDevice>().CreateDevice();
+	}
+
+	if (pSensor) {
+		FusionResult.AttachToSensor(pSensor);
+		ros::NodeHandle node;
+		pub_ = node.advertise<geometry_msgs::Quaternion>("/oculus/orientation", 10);
+	}
+}
+
+OculusRos::~OculusRos() {
+	pSensor.Clear();
+	pHMD.Clear();
+	pManager.Clear();
+
+	System::Destroy();
+}
+
+void OculusRos::publish() {
+	if (pSensor) {
+		Quatf quaternion = FusionResult.GetOrientation();
+		float yaw, pitch, roll;
+		quaternion.GetEulerAngles<Axis_Y, Axis_X, Axis_Z>(&yaw, &pitch, &roll);
+		std::cout << " Yaw: " << RadToDegree(yaw) << 
+			", Pitch: " << RadToDegree(pitch) << 
+			", Roll: " << RadToDegree(roll) << std::endl;
+		geometry_msgs::Quaternion msg;
+		msg.x = quaternion.x;
+		msg.y = quaternion.y;
+		msg.z = quaternion.z;
+		msg.w = quaternion.w;
+		pub_.publish(msg);
+	}
+}
+
+} 	// namespace oculus_ros

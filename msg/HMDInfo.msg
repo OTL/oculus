@@ -1,0 +1,16 @@
+string display_device_name
+string product_name
+string manufacturer
+uint32 version
+uint32 horizontal_resolution
+uint32 vertical_resolution
+float32 horizontal_screen_size
+float32 vertical_screen_size
+float32 vertical_screen_center
+float32 eye_to_screen_distance
+float32 lens_separation_distance
+float32 interpupillary_distance
+int32 desktop_x
+int32 desktop_y
+int32 display_id
+float32[] distortion_K
