@@ -5,7 +5,13 @@ see http://developer.oculusvr.com for Oculus Rift SDK.
 
 install
 -----------------
-Please copy OculusSDK/LibOVR to this directory.
+Please copy OculusSDK/LibOVR to this directory and build it in Debug mode.
+(If you are using OSX, please enable rtti and exceptions.)
+If you want to use Relase mode, please edit CMakeLists.txt.
+
+Supported OS
+-----------------
+This package supports OSX and Linux.
 
 oculus_ros_node
 ------------------

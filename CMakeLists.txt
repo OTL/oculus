@@ -4,7 +4,7 @@ project(oculus_ros)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs message_generation)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -31,78 +31,58 @@ add_message_files(FILES HMDInfo.msg)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages()
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
 
 ###################################
 ## catkin specific configuration ##
 ###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include
-	 LIBRARIES oculus_ros
+   LIBRARIES oculus_ros
    CATKIN_DEPENDS roscpp geometry_msgs
 #  DEPENDS system_lib
 )
+
 
 ###########
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(include
   ${catkin_INCLUDE_DIRS}
-	LibOVR/Include
-)
-
-IF(APPLE)
-  link_directories(LibOVR/Lib/MacOS/Debug)
-ELSE(APPLE)
-  link_directories(LibOVR/Lib/Linux/Debug)
-ENDIF(APPLE)
-
-## Declare a cpp library
-add_library(oculus_ros
-  src/oculus_ros.cpp
-	src/util.cpp
-)
-
-#SET(oculus_ros_CMAKE_CXX_FLAGS "-fno-rtti -fno-exceptions")
-
-add_executable(oculus_ros_node src/oculus_ros_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(oculus_ros_node oculus_ros_generate_messages_cpp)
+  LibOVR/Include
+  )
 
 IF(APPLE)
   FIND_LIBRARY(IOSURFACE_LIBRARY IOSurface)
   FIND_LIBRARY(CARBON_LIBRARY Carbon)
   FIND_LIBRARY(IOKIT_LIBRARY IOKit)
+  link_directories(LibOVR/Lib/MacOS/Debug)
+ELSE(APPLE)
+  IF("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+    link_directories(LibOVR/Lib/Linux/Debug/x86_64)
+  ELSE("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+    link_directories(LibOVR/Lib/Linux/Debug/i386)
+  ENDIF("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
 ENDIF(APPLE)
 
+add_library(oculus_ros
+  src/oculus_ros.cpp
+  src/util.cpp
+  )
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(oculus_ros
- ${catkin_LIBRARIES} ovr
-)
+add_executable(oculus_ros_node src/oculus_ros_node.cpp)
+
+add_dependencies(oculus_ros oculus_ros_gencpp)
+add_dependencies(oculus_ros_node oculus_ros)
 
 IF(APPLE)
   target_link_libraries(oculus_ros
-			 ${IOSURFACE_LIBRAY} ${CARBON_LIBRARY} ${IOKIT_LIBRARY}
-  )
+    ${IOSURFACE_LIBRAY} ${CARBON_LIBRARY} ${IOKIT_LIBRARY})
+ELSE(APPLE)
+  target_link_libraries(oculus_ros udev Xinerama)
 ENDIF(APPLE)
-
-target_link_libraries(oculus_ros_node
-	oculus_ros
-#  ${catkin_LIBRARIES}
-)
+target_link_libraries(oculus_ros ovr ${catkin_LIBRARIES})
+target_link_libraries(oculus_ros_node oculus_ros)
 
 
 #############
