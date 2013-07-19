@@ -21,9 +21,12 @@ publishes sensor data and HMD information of Oculus Rift.
 
 * /oculus/orientaion (geometry_msgs/Quaternion) orientation of sensor.
 * /oculus/hmd_info (oculus_ros/HMDInfo) HMD device info.
+* /tf
 
 ### param
 * ~frequency (double: default 10.0) [Hz] rate of publish
+* ~parent_frame (string: default parent) tf frame name of parent
+* ~oculus_frame (string: default oculus) tf frame name of oculus
 
 License
 -----------

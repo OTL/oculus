@@ -6,11 +6,17 @@ namespace oculus_ros {
 
 OculusRos::OculusRos(ros::NodeHandle& node)
 	: is_info_loaded_(false)
+	, parent_frame_("parent")
+	, oculus_frame_("oculus")
 	, node_(node) {
 }
 
 bool OculusRos::init() {
 	OVR::System::Init();
+
+	ros::NodeHandle private_node("~");
+	private_node.getParam("parent_frame", parent_frame_);
+	private_node.getParam("oculus_frame", oculus_frame_);
 
 	manager_ = *OVR::DeviceManager::Create();
 	hmd_ = *manager_->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
@@ -44,9 +50,21 @@ void OculusRos::publish() {
 		hmd_pub_.publish(hmd_msg);
 	}
 	if (sensor_) {
+		// topic
 		geometry_msgs::Quaternion q_msg;
 		convertQuaternionToMsg(fusion_result_.GetOrientation(), q_msg);
 		pub_.publish(q_msg);
+
+		// tf
+		tf::Transform transform;
+		transform.setRotation(tf::Quaternion(q_msg.x,
+																				 q_msg.y,
+																				 q_msg.z,
+																				 q_msg.w));
+		br_.sendTransform(tf::StampedTransform(transform,
+																					 ros::Time::now(),
+																					 parent_frame_,
+																					 oculus_frame_));
 	}
 }
 
