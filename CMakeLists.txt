@@ -4,7 +4,7 @@ project(oculus_ros)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs message_generation tf)
+find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs message_generation tf cv_bridge image_transport)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -71,6 +71,7 @@ add_library(oculus_ros
   )
 
 add_executable(oculus_ros_node src/oculus_ros_node.cpp)
+add_executable(distort_node src/distort.cpp src/distort_node.cpp)
 
 add_dependencies(oculus_ros oculus_ros_gencpp)
 add_dependencies(oculus_ros_node oculus_ros)
@@ -82,6 +83,7 @@ ELSE(APPLE)
   target_link_libraries(oculus_ros udev Xinerama)
 ENDIF(APPLE)
 target_link_libraries(oculus_ros ovr ${catkin_LIBRARIES})
+target_link_libraries(distort_node ${catkin_LIBRARIES})
 target_link_libraries(oculus_ros_node oculus_ros)
 
 

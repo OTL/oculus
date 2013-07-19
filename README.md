@@ -28,6 +28,23 @@ publishes sensor data and HMD information of Oculus Rift.
 * ~parent_frame (string: default parent) tf frame name of parent
 * ~oculus_frame (string: default oculus) tf frame name of oculus
 
+distort_node
+-------------------
+distort images by /oculus/hmd_info params.
+
+### Subscribe
+* /left/image (sensor_msgs/Image)
+* /right/image (sensor_msgs/Image)
+* /oculus/hmd_info (oculus_ros/HMDInfo) HMD device info.
+
+### Publish
+* /left/image/distorted (sensor_msgs/Image)
+* /right/image/distorted (sensor_msgs/Image)
+
+### param
+* ~image_transport (string: default "raw") this node uses image_transport.
+
+
 License
 -----------
 BSD
