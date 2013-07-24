@@ -1,5 +1,6 @@
 #include <oculus_ros/distort.h>
 #include <opencv/cv.h>
+#include <opencv2/highgui/highgui.hpp> // tmp
 #include <sensor_msgs/image_encodings.h>
 
 namespace enc = sensor_msgs::image_encodings;
@@ -53,7 +54,9 @@ IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
 
 DistortImage::DistortImage()
     : nh_()
-    , it_(nh_) {
+    , it_(nh_)
+    , offset_(0.0)
+    , scale_(1.0) {
 }
 
 void DistortImage::init(const std::string& topic_name) {
@@ -71,17 +74,26 @@ void DistortImage::init(const std::string& topic_name) {
 }
 
 void DistortImage::imageCb(const sensor_msgs::ImageConstPtr& msg) {
-  cv_bridge::CvImagePtr cv_ptr;
+  cv_bridge::CvImagePtr ptr;
   try {
-    cv_ptr = cv_bridge::toCvCopy(msg, enc::BGR8);
+    ptr = cv_bridge::toCvCopy(msg, enc::BGR8);
   } catch (cv_bridge::Exception& e) {
     ROS_ERROR("cv_bridge exception: %s", e.what());
   }
-  IplImage img = cv_ptr->image;
+  IplImage img = ptr->image;
   if (K_.size() > 2) {
-    barrel_dist(&img, msg->width / 2, msg->height / 2,
+    barrel_dist(&img,
+                (msg->width / 2 * (1.0 + offset_)), msg->height / 2,
                 K_.at(0), K_.at(1), K_.at(2));
-    pub_.publish(cv_ptr->toImageMsg());
+    cv::Mat resized_image;
+    cv::resize(ptr->image, resized_image, cv::Size(), scale_, scale_);
+    ptr->image = resized_image(
+        cv::Rect((resized_image.cols - ptr->image.cols) /2,
+                 (resized_image.rows - ptr->image.rows) /2,
+                 ptr->image.cols,
+                 ptr->image.rows));
+    img_ = ptr->image;
+    pub_.publish(ptr->toImageMsg());
   }
 }
 

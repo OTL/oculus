@@ -33,8 +33,8 @@ distort_node
 distort images by /oculus/hmd_info params.
 
 ### Subscribe
-* /left/image (sensor_msgs/Image)
-* /right/image (sensor_msgs/Image)
+* /camera_left/image_raw (sensor_msgs/Image)
+* /camera_right/image_raw (sensor_msgs/Image)
 * /oculus/hmd_info (oculus_ros/HMDInfo) HMD device info.
 
 ### Publish

@@ -50,6 +50,7 @@ catkin_package(
 include_directories(include
   ${catkin_INCLUDE_DIRS}
   LibOVR/Include
+	src
   )
 
 IF(APPLE)
@@ -71,7 +72,7 @@ add_library(oculus_ros
   )
 
 add_executable(oculus_ros_node src/oculus_ros_node.cpp)
-add_executable(distort_node src/distort.cpp src/distort_node.cpp)
+add_executable(distort_node src/distort.cpp src/distort_node.cpp src/viewer.cpp)
 
 add_dependencies(oculus_ros oculus_ros_gencpp)
 add_dependencies(oculus_ros_node oculus_ros)
