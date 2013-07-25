@@ -13,7 +13,7 @@ Supported OS
 -----------------
 This package supports OSX and Linux.
 
-oculus_ros_node
+oculus_node
 ------------------
 publishes sensor data and HMD information of Oculus Rift.
 
@@ -28,9 +28,9 @@ publishes sensor data and HMD information of Oculus Rift.
 * ~parent_frame (string: default parent) tf frame name of parent
 * ~oculus_frame (string: default oculus) tf frame name of oculus
 
-distort_node
+image_distort_viewer
 -------------------
-distort images by /oculus/hmd_info params.
+distort images by /oculus/hmd_info params and display it.
 
 ### Subscribe
 * /camera_left/image_raw (sensor_msgs/Image)
@@ -42,8 +42,8 @@ distort images by /oculus/hmd_info params.
 * /right/image/distorted (sensor_msgs/Image)
 
 ### param
-* ~image_transport (string: default "raw") this node uses image_transport.
-
+* ~image_transport (string: default "raw") this node uses image_transport for subscribe.
+* ~use_display (bool: default true) true: show distored and combined image in GUI. false: publish distored image only.
 
 License
 -----------

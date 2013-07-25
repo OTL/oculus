@@ -1,4 +1,4 @@
-#include <viewer.h>
+#include <oculus_ros/viewer.h>
 #include <iostream>
 
 namespace oculus_ros {
