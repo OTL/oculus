@@ -1,6 +1,6 @@
 <launch>
-	<node pkg="oculus_ros" type="oculus_node" name="oculus_node"/>
-	<node pkg="oculus_ros" type="image_distort_viewer" name="image_distort_viewer">
+	<node pkg="oculus_driver" type="oculus_node" name="oculus_node"/>
+	<node pkg="oculus_viewer" type="image_distort_viewer" name="image_distort_viewer">
 		<param name="image_transport" value="compressed"/>
 		<!-- adjust these params for your robot -->
 		<param name="display_offset_y" value="-40"/>
