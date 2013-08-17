@@ -33,13 +33,13 @@ image_distort_viewer
 distort images by /oculus/hmd_info params and display it.
 
 ### Subscribe
-* /camera_left/image_raw (sensor_msgs/Image)
-* /camera_right/image_raw (sensor_msgs/Image)
+* /camera/left/image_raw (sensor_msgs/Image)
+* /camera/right/image_raw (sensor_msgs/Image)
 * /oculus/hmd_info (oculus_ros/HMDInfo) HMD device info.
 
 ### Publish
-* /left/image/distorted (sensor_msgs/Image)
-* /right/image/distorted (sensor_msgs/Image)
+* /camera/left/image_raw/distorted (sensor_msgs/Image) left distorted image
+* /camera/right/image_raw/distorted (sensor_msgs/Image) right distorted image
 
 ### param
 * ~image_transport (string: default "raw") this node uses image_transport for subscribe.

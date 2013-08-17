@@ -27,8 +27,8 @@ ImageDistortViewer::ImageDistortViewer()
 
 void ImageDistortViewer::init() {
 	ros::NodeHandle node;
-  left_.init("camera_left/image_raw");
-  right_.init("camera_right/image_raw");
+  left_.init("camera/left/image_raw");
+  right_.init("camera/right/image_raw");
   sub_ = node.subscribe("/oculus/hmd_info",
                         1,
                         &ImageDistortViewer::HMDInfoCallback,
@@ -70,12 +70,12 @@ void ImageDistortViewer::HMDInfoCallback(const oculus_ros::HMDInfoPtr& info) {
 
 
 int main(int argc, char** argv) {
-	ros::init(argc, argv, "oculus_distort_node");
+	ros::init(argc, argv, "image_distort_viewer");
   try {
     oculus_ros::ImageDistortViewer dis;
     dis.init();
     while(ros::ok()) {
-      cv::waitKey(10);
+      cv::waitKey(100);
       ros::spinOnce();
       dis.show();
     }

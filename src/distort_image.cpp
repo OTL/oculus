@@ -88,7 +88,7 @@ void DistortImage::imageCb(const sensor_msgs::ImageConstPtr& msg) {
     cv::Mat resized_image;
     cv::resize(ptr->image, resized_image, cv::Size(), scale_, scale_);
     ptr->image = resized_image(
-        cv::Rect((resized_image.cols - ptr->image.cols) /2,
+        cv::Rect((resized_image.cols - ptr->image.cols) / 2,
                  (resized_image.rows - ptr->image.rows) /2,
                  ptr->image.cols,
                  ptr->image.rows));
