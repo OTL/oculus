@@ -1,8 +1,8 @@
-#include <oculus_ros/util.h>
+#include <oculus_driver/util.h>
 
-namespace oculus_ros {
+namespace oculus_driver {
 
-void convertHMDInfoToMsg(const OVR::HMDInfo& info, oculus_ros::HMDInfo& msg) {
+void convertHMDInfoToMsg(const OVR::HMDInfo& info, oculus_msgs::HMDInfo& msg) {
   msg.display_device_name = info.DisplayDeviceName;
   msg.product_name = info.ProductName;
   msg.manufacturer = info.Manufacturer;

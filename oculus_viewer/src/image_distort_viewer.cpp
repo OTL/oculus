@@ -1,15 +1,15 @@
 #include <ros/ros.h>
-#include <oculus_ros/HMDInfo.h>
-#include <oculus_ros/distort.h>
-#include <oculus_ros/viewer.h>
+#include <oculus_msgs/HMDInfo.h>
+#include <oculus_viewer/distort.h>
+#include <oculus_viewer/viewer.h>
 
-namespace oculus_ros {
+namespace oculus_viewer {
 
 class ImageDistortViewer {
  public:
   ImageDistortViewer();
   void init();
-  void HMDInfoCallback(const oculus_ros::HMDInfoPtr& info);
+  void HMDInfoCallback(const oculus_msgs::HMDInfoPtr& info);
   void show();
  private:
   DistortImage left_;
@@ -53,7 +53,8 @@ void ImageDistortViewer::show() {
   }
 }
 
-void ImageDistortViewer::HMDInfoCallback(const oculus_ros::HMDInfoPtr& info) {
+void ImageDistortViewer::HMDInfoCallback(
+    const oculus_msgs::HMDInfoPtr& info) {
   if (info->horizontal_screen_size > 0) {
     double lens_center = 1 - 2 * info->lens_separation_distance / info->horizontal_screen_size;
     double scale = 1 + lens_center;
@@ -66,13 +67,13 @@ void ImageDistortViewer::HMDInfoCallback(const oculus_ros::HMDInfoPtr& info) {
   }
 }
 
-}  // namespace oculus_ros
+}  // namespace oculus_viewer
 
 
 int main(int argc, char** argv) {
 	ros::init(argc, argv, "image_distort_viewer");
   try {
-    oculus_ros::ImageDistortViewer dis;
+    oculus_viewer::ImageDistortViewer dis;
     dis.init();
     while(ros::ok()) {
       cv::waitKey(100);

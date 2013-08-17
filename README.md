@@ -5,9 +5,9 @@ see http://developer.oculusvr.com for Oculus Rift SDK.
 
 install
 -----------------
-Please copy OculusSDK/LibOVR to this directory and build it in Debug mode.
+Please copy OculusSDK/LibOVR to oculus_driver/ directory and build it in Debug mode.
 (If you are using OSX, please enable rtti and exceptions.)
-If you want to use Relase mode, please edit CMakeLists.txt.
+If you want to use Release mode, please edit CMakeLists.txt of oculus_driver/.
 
 Supported OS
 -----------------

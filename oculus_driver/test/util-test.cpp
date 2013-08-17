@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
-#include <oculus_ros/util.h>
+#include <oculus_driver/util.h>
 
 TEST(convertHMDInfoToMsg, checkCopy) {
 	OVR::HMDInfo info;
 	info.DisplayId = 5;
-	oculus_ros::HMDInfo msg;
-	oculus_ros::convertHMDInfoToMsg(info, msg);
+	oculus_msgs::HMDInfo msg;
+	oculus_driver::convertHMDInfoToMsg(info, msg);
 	EXPECT_EQ(msg.display_id, 5);
 }
 
@@ -16,7 +16,7 @@ TEST(convertQuaternionToMsg, checkCopy) {
 	q.z = 3.0;
 	q.w = 4.0;
 	geometry_msgs::Quaternion msg;
-	oculus_ros::convertQuaternionToMsg(q, msg);
+	oculus_driver::convertQuaternionToMsg(q, msg);
 	EXPECT_NEAR(1.0, msg.x, 0.00000001);
 	EXPECT_NEAR(2.0, msg.y, 0.00000001);
 	EXPECT_NEAR(3.0, msg.z, 0.00000001);

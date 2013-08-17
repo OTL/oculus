@@ -1,10 +1,10 @@
-#ifndef __OCULUS_ROS_DISTORT_H__
-#define __OCULUS_ROS_DISTORT_H__
+#ifndef __OCULUS_VIEWER_DISTORT_H__
+#define __OCULUS_VIEWER_DISTORT_H__
 
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 
-namespace oculus_ros {
+namespace oculus_viewer {
 
 IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
                       double k0, double k1, double k2);
@@ -39,6 +39,6 @@ class DistortImage {
   double scale_;
 };
 
-}  // namespace oculus_ros
+}  // namespace oculus_viewer
 
-#endif  // __OCULUS_ROS_DISTORT_H__
+#endif  // __OCULUS_VIEWER_DISTORT_H__

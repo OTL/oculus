@@ -1,8 +1,8 @@
-#include <oculus_ros/oculus_ros.h>
-#include <oculus_ros/HMDInfo.h>
-#include <oculus_ros/util.h>
+#include <oculus_driver/oculus_ros.h>
+#include <oculus_driver/util.h>
+#include <oculus_msgs/HMDInfo.h>
 
-namespace oculus_ros {
+namespace oculus_driver {
 
 OculusRos::OculusRos(ros::NodeHandle& node)
 	: is_info_loaded_(false)
@@ -24,7 +24,7 @@ bool OculusRos::init() {
 	if (hmd_) {
 		is_info_loaded_ = hmd_->GetDeviceInfo(&info_);
 		sensor_ = *hmd_->GetSensor();
-		hmd_pub_ = node_.advertise<oculus_ros::HMDInfo>("/oculus/hmd_info", 10);
+		hmd_pub_ = node_.advertise<oculus_msgs::HMDInfo>("/oculus/hmd_info", 10);
 	} else {
 		sensor_ = *manager_->EnumerateDevices<OVR::SensorDevice>().CreateDevice();
 	}
@@ -44,9 +44,11 @@ OculusRos::~OculusRos() {
 }
 
 void OculusRos::publish() {
+  ros::Time now = ros::Time::now();
 	if (is_info_loaded_) {
-		oculus_ros::HMDInfo hmd_msg;
+		oculus_msgs::HMDInfo hmd_msg;
 		convertHMDInfoToMsg(info_, hmd_msg);
+    hmd_msg.header.stamp = now;
 		hmd_pub_.publish(hmd_msg);
 	}
 	if (sensor_) {
@@ -62,10 +64,10 @@ void OculusRos::publish() {
 																				 q_msg.z,
 																				 q_msg.w));
 		br_.sendTransform(tf::StampedTransform(transform,
-																					 ros::Time::now(),
+																					 now,
 																					 parent_frame_,
 																					 oculus_frame_));
 	}
 }
 
-} 	// namespace oculus_ros
+} 	// namespace oculus_driver

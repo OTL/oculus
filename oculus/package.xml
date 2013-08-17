@@ -1,0 +1,22 @@
+<package>
+  <name>oculus</name>
+  <version>0.1.0</version>
+  <description>Oculus Rift releated packages</description>
+  <maintainer email="t.ogura@gmail.com">Takashi Ogura</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/oculus</url>
+  <url type="bugtracker">https://github.com/OTL/oculus</url>
+
+  <author>Takashi Ogura</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>oculus_driver</run_depend>
+  <run_depend>oculus_msgs</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

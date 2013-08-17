@@ -1,12 +1,12 @@
-#ifndef __OCULUS_ROS_VIEWER_H__
-#define __OCULUS_ROS_VIEWER_H__
+#ifndef __OCULUS_VIEWER_VIEWER_H__
+#define __OCULUS_VIEWER_VIEWER_H__
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
 
-namespace oculus_ros {
+namespace oculus_viewer {
 
 class Viewer {
  public:
@@ -24,6 +24,6 @@ class Viewer {
   int32_t display_offset_y_;
 };
 
-}  // namespace oculus_ros
+}  // namespace oculus_viewer
 
-#endif  // __OCULUS_ROS_VIEWER_H__
+#endif  // __OCULUS_VIEWER_VIEWER_H__

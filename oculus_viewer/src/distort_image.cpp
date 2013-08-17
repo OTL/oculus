@@ -1,11 +1,11 @@
-#include <oculus_ros/distort.h>
+#include <oculus_viewer/distort.h>
 #include <opencv/cv.h>
 #include <opencv2/highgui/highgui.hpp> // tmp
 #include <sensor_msgs/image_encodings.h>
 
 namespace enc = sensor_msgs::image_encodings;
 
-namespace oculus_ros {
+namespace oculus_viewer {
 
 IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
                       double k0, double k1, double k2) {
@@ -97,4 +97,4 @@ void DistortImage::imageCb(const sensor_msgs::ImageConstPtr& msg) {
   }
 }
 
-}  // namespace oculus_ros
+}  // namespace oculus_viewer

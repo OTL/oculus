@@ -1,7 +1,7 @@
-#include <oculus_ros/viewer.h>
+#include <oculus_viewer/viewer.h>
 #include <iostream>
 
-namespace oculus_ros {
+namespace oculus_viewer {
 
 Viewer::Viewer(const std::string& window_name)
     : window_name_(window_name)
@@ -37,4 +37,5 @@ void Viewer::show(const cv::Mat& right_image,
   dst_left.copyTo(roi_left);
   cv::imshow(window_name_, combined);
 }
-}  // namespace oculus_ros
+
+}  // namespace oculus_viewer

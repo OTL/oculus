@@ -1,11 +1,11 @@
-#ifndef __OCULUS_ROS_OCULUS_ROS__
-#define __OCULUS_ROS_OCULUS_ROS__
+#ifndef __OCULUS_DRIVER_OCULUS_ROS__
+#define __OCULUS_DRIVER_OCULUS_ROS__
 
 #include <OVR.h>
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 
-namespace oculus_ros {
+namespace oculus_driver {
 
 class OculusRos {
  public:
@@ -28,6 +28,6 @@ class OculusRos {
 	tf::TransformBroadcaster br_;
 };
 
-}  // namespace oculus_ros
+}  // namespace oculus_driver
 
-#endif  // __OCULUS_ROS_OCULUS_ROS__
+#endif  // __OCULUS_DRIVER_OCULUS_ROS__
