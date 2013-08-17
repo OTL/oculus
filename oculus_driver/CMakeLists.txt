@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs message_generation 
 catkin_package(
    INCLUDE_DIRS include
    LIBRARIES oculus_driver
-   CATKIN_DEPENDS roscpp geometry_msgs tf
+   CATKIN_DEPENDS roscpp geometry_msgs tf oculus_msgs
 #  DEPENDS system_lib
 )
 
@@ -46,7 +46,7 @@ add_library(oculus_ros
   )
 
 add_executable(oculus_node src/oculus_node.cpp)
-add_dependencies(oculus_ros oculus_ros_gencpp)
+add_dependencies(oculus_ros oculus_ros_gencpp oculus_msgs_gencpp)
 add_dependencies(oculus_node oculus_ros)
 
 IF(APPLE)

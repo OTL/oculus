@@ -27,6 +27,7 @@ include_directories(include
   )
 
 add_executable(image_distort_viewer src/distort_image.cpp src/image_distort_viewer.cpp src/viewer.cpp)
+add_dependencies(image_distort_viewer oculus_msgs_gencpp)
 
 target_link_libraries(image_distort_viewer ${catkin_LIBRARIES})
 
