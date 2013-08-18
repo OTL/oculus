@@ -4,9 +4,8 @@
 namespace oculus_viewer {
 
 Viewer::Viewer(const std::string& window_name)
-    : window_name_(window_name)
-    , display_size_(1280, 800)
-{
+  : window_name_(window_name)
+  , display_size_(1280, 800) {
 }
 
 void Viewer::show(const cv::Mat& right_image,

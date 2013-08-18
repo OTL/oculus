@@ -20,9 +20,8 @@ class ImageDistortViewer {
 };
 
 ImageDistortViewer::ImageDistortViewer()
-    : use_display_(true)
-    , viewer_("oculus camera view")
-{
+  : use_display_(true)
+  , viewer_("oculus camera view") {
 }
 
 void ImageDistortViewer::init() {
@@ -41,7 +40,6 @@ void ImageDistortViewer::init() {
   viewer_.setDisplayOffset(offset_x, offset_y);
   
   private_node.param<bool>("use_display", use_display_, true);
-
 }
 
 void ImageDistortViewer::show() {

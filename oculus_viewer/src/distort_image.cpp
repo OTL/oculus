@@ -17,10 +17,8 @@ IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
   
   float* pbuf = (float*)mapx->imageData;
   const float unit_xr2 = (w - Cx) * (w - Cx);
-  for (int y = 0; y < h; y++)
-  {
-    for (int x = 0; x < w; x++)
-    {
+  for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++) {
       float r2 = (x-Cx)*(x-Cx)+(y-Cy)*(y-Cy);
       r2 /= unit_xr2;
       const float r4 = r2 * r2;
@@ -31,10 +29,8 @@ IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
   
   pbuf = (float*)mapy->imageData;
   const float unit_yr2 = (h -Cy) * (h -Cy);
-  for (int y = 0;y < h; y++)
-  {
-    for (int x = 0; x < w; x++) 
-    {
+  for (int y = 0;y < h; y++) {
+    for (int x = 0; x < w; x++) {
       float r2 = (x-Cx)*(x-Cx)+(y-Cy)*(y-Cy);
       r2 /= unit_yr2;
       const float r4 = r2 * r2;
@@ -53,12 +49,12 @@ IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
 }
 
 DistortImage::DistortImage()
-    : nh_()
-    , it_(nh_)
-    , offset_(0.0)
-    , scale_(1.0) {
+  : nh_()
+  , it_(nh_)
+  , offset_(0.0)
+  , scale_(1.0) {
 }
-
+  
 void DistortImage::init(const std::string& topic_name) {
   ros::NodeHandle node;
   try {

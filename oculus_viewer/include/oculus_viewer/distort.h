@@ -11,7 +11,7 @@ IplImage* barrel_dist(IplImage* img, double Cx, double Cy,
 
 class DistortImage {
  public:
-	DistortImage();
+  DistortImage();
   void init(const std::string& topic_name);
   const std::vector<float>& getK() const {
     return K_;
@@ -30,8 +30,8 @@ class DistortImage {
 
  private:
   ros::NodeHandle nh_;
-	image_transport::Subscriber sub_;
-	image_transport::Publisher pub_;
+  image_transport::Subscriber sub_;
+  image_transport::Publisher pub_;
   image_transport::ImageTransport it_;
   std::vector<float> K_;
   cv::Mat img_;
