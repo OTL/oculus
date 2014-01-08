@@ -5,28 +5,30 @@
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 
-namespace oculus_driver {
+namespace oculus_driver
+{
 
-class OculusRos {
- public:
-  explicit OculusRos(ros::NodeHandle& node);
-  virtual bool init();
-  virtual void publish();
-  virtual ~OculusRos();
- private:
-  bool is_info_loaded_;
-  std::string parent_frame_;
-  std::string oculus_frame_;
-  ros::NodeHandle node_;
-  OVR::Ptr<OVR::DeviceManager> manager_;
-  OVR::Ptr<OVR::HMDDevice> hmd_;
-  OVR::Ptr<OVR::SensorDevice> sensor_;
-  OVR::SensorFusion fusion_result_;
-  OVR::HMDInfo info_;
-  ros::Publisher pub_;
-  ros::Publisher hmd_pub_;
-  tf::TransformBroadcaster br_;
-};
+    class OculusRos
+    {
+        public:
+            explicit OculusRos(ros::NodeHandle& node);
+            virtual bool init();
+            virtual void publish();
+            virtual ~OculusRos();
+        private:
+            bool is_info_loaded;
+            std::string parent_frame;
+            std::string oculus_frame;
+            ros::NodeHandle node;
+            OVR::Ptr<OVR::DeviceManager> manager;
+            OVR::Ptr<OVR::HMDDevice> hmd;
+            OVR::Ptr<OVR::SensorDevice> sensor;
+            OVR::SensorFusion* fusion_result;
+            OVR::HMDInfo info;
+            ros::Publisher pub;
+            ros::Publisher hmd_pub;
+            tf::TransformBroadcaster br;
+    };
 
 }  // namespace oculus_driver
 
