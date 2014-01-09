@@ -25,6 +25,7 @@ catkin_package(
 include_directories(include
   ${catkin_INCLUDE_DIRS}
   LibOVR/Include
+  LibOVR/Src
   )
 
 IF(APPLE)
