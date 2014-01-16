@@ -28,7 +28,7 @@ publishes sensor data and HMD information of Oculus Rift.
 
 ### publish
 
-* /oculus/orientaion (geometry_msgs/Quaternion) orientation of sensor.
+* /oculus/orientation (geometry_msgs/Quaternion) orientation of sensor.
 * /oculus/hmd_info (oculus_ros/HMDInfo) HMD device info.
 * /tf
 
