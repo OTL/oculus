@@ -1,73 +1,90 @@
 #include <oculus_driver/oculus_ros.h>
 #include <oculus_driver/util.h>
 #include <oculus_msgs/HMDInfo.h>
+#include <iostream>
 
-namespace oculus_driver {
+namespace oculus_driver
+{
 
-OculusRos::OculusRos(ros::NodeHandle& node)
-  : is_info_loaded_(false)
-  , parent_frame_("parent")
-  , oculus_frame_("oculus")
-  , node_(node) {
-}
+    OculusRos::OculusRos(ros::NodeHandle& node)
+    : is_info_loaded(false)
+    , parent_frame("parent")
+    , oculus_frame("oculus")
+    , node(node)
+    {
+        ROS_INFO("Oculus Rift Object Created");
+    }
 
-bool OculusRos::init() {
-  OVR::System::Init();
+    bool OculusRos::init()
+    {
+        OVR::System::Init();
 
-  ros::NodeHandle private_node("~");
-  private_node.getParam("parent_frame", parent_frame_);
-  private_node.getParam("oculus_frame", oculus_frame_);
+        ROS_INFO("Oculus Rift System Starting");
 
-  manager_ = *OVR::DeviceManager::Create();
-  hmd_ = *manager_->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
+        ros::NodeHandle private_node("~");
+        private_node.getParam("parent_frame", parent_frame);
+        private_node.getParam("oculus_frame", oculus_frame);
 
-  if (hmd_) {
-    is_info_loaded_ = hmd_->GetDeviceInfo(&info_);
-    sensor_ = *hmd_->GetSensor();
-    hmd_pub_ = node_.advertise<oculus_msgs::HMDInfo>("/oculus/hmd_info", 10);
-  } else {
-    sensor_ = *manager_->EnumerateDevices<OVR::SensorDevice>().CreateDevice();
-  }
+        manager = *OVR::DeviceManager::Create();
+        hmd = *manager->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
+        fusion_result = new OVR::SensorFusion();
+        ROS_INFO("Oculus Rift Device Manager Running");
 
-  if (sensor_) {
-    fusion_result_.AttachToSensor(sensor_);
-    pub_ = node_.advertise<geometry_msgs::Quaternion>("/oculus/orientation", 10);
-  }
-  return is_info_loaded_ || sensor_;
-}
+        if (hmd)
+        {
+            is_info_loaded = hmd->GetDeviceInfo(&info);
+            sensor = *hmd->GetSensor();
+            hmd_pub = node.advertise<oculus_msgs::HMDInfo>("/oculus/hmdinfo", 10);
+        }
+        else
+        {
+            sensor = *manager->EnumerateDevices<OVR::SensorDevice>().CreateDevice();
+        }
 
-OculusRos::~OculusRos() {
-  sensor_.Clear();
-  hmd_.Clear();
-  manager_.Clear();
-  OVR::System::Destroy();
-}
+        if (sensor)
+        {
+            fusion_result -> AttachToSensor(sensor);
+            pub = node.advertise<geometry_msgs::Quaternion>("/oculus/orientation", 10);
+        }
+        return is_info_loaded || sensor;
+    }
 
-void OculusRos::publish() {
-  ros::Time now = ros::Time::now();
-  if (is_info_loaded_) {
-    oculus_msgs::HMDInfo hmd_msg;
-    convertHMDInfoToMsg(info_, hmd_msg);
-    hmd_msg.header.stamp = now;
-    hmd_pub_.publish(hmd_msg);
-  }
-  if (sensor_) {
-    // topic
-    geometry_msgs::Quaternion q_msg;
-    convertQuaternionToMsg(fusion_result_.GetOrientation(), q_msg);
-    pub_.publish(q_msg);
+    OculusRos::~OculusRos()
+    {
+        sensor.Clear();
+        hmd.Clear();
+        manager.Clear();
+        OVR::System::Destroy();
+    }
 
-    // tf
-    tf::Transform transform;
-    transform.setRotation(tf::Quaternion(q_msg.x,
-					 q_msg.y,
-					 q_msg.z,
-					 q_msg.w));
-    br_.sendTransform(tf::StampedTransform(transform,
-					   now,
-					   parent_frame_,
-					   oculus_frame_));
-  }
-}
+    void OculusRos::publish()
+    {
+        ros::Time now = ros::Time::now();
+        if (is_info_loaded)
+        {
+            oculus_msgs::HMDInfo hmd_msg;
+            convertHMDInfoToMsg(info, hmd_msg);
+            hmd_msg.header.stamp = now;
+            hmd_pub.publish(hmd_msg);
+        }
+        if (sensor)
+        {
+            // topic
+            geometry_msgs::Quaternion q_msg;
+            convertQuaternionToMsg(fusion_result->GetOrientation(), q_msg);
+            pub.publish(q_msg);
+
+            // tf
+            tf::Transform transform;
+            transform.setRotation(tf::Quaternion(q_msg.x,
+                         q_msg.y,
+                         q_msg.z,
+                         q_msg.w));
+            br.sendTransform(tf::StampedTransform(transform,
+                           now,
+                           parent_frame,
+                           oculus_frame));
+        }
+    }
 
 } 	// namespace oculus_driver

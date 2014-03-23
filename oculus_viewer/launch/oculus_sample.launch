@@ -1,6 +1,16 @@
 <launch>
-	<node pkg="oculus_driver" type="oculus_node" name="oculus_node"/>
-	<node pkg="oculus_viewer" type="image_distort_viewer" name="image_distort_viewer">
+    <!--Debugging purposes , enter the next line into the node tag-->
+    <!--launch-prefix="xterm -e gdb -args"-->
+	<node pkg="oculus_driver"
+        type="oculus_node"
+        name="oculus_node"
+    >
+	</node>
+    
+	<node pkg="oculus_viewer"
+        type="image_distort_viewer"
+        name="image_distort_viewer"
+    >
 		<param name="image_transport" value="compressed"/>
 		<!-- adjust these params for your robot -->
 		<param name="display_offset_y" value="-40"/>
