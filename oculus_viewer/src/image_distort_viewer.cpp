@@ -29,13 +29,29 @@ namespace oculus_viewer
     void ImageDistortViewer::init()
     {
         ros::NodeHandle node;
-        left_.init("camera/left/image_raw");
-        right_.init("camera/right/image_raw");
+        std::string left_img, right_img;
+        // left_.init("camera/left/image_raw");
+        // right_.init("camera/right/image_raw");
+        // left_.init("camera/left/image_rect");
+        // right_.init("camera/right/image_rect");
+
+
         sub_ = node.subscribe("/oculus/hmd_info",
                             1,
                             &ImageDistortViewer::HMDInfoCallback,
                             this);
         ros::NodeHandle private_node("~");
+        private_node.param<std::string>("left_image", left_img, "camera/left/image_raw");
+        private_node.param<std::string>("right_image", right_img, "camera/right/image_raw");
+        
+        ROS_INFO("Left image topic: %s", left_img.c_str());
+        ROS_INFO("Right image topic: %s", right_img.c_str());
+
+        left_.init(left_img);
+        right_.init(right_img);
+
+
+        
         int32_t offset_x = 0;
         private_node.param<int32_t>("display_offset_x", offset_x, 0);
         int32_t offset_y = 0;

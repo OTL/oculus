@@ -34,7 +34,7 @@ namespace oculus_driver
         {
             is_info_loaded = hmd->GetDeviceInfo(&info);
             sensor = *hmd->GetSensor();
-            hmd_pub = node.advertise<oculus_msgs::HMDInfo>("/oculus/hmdinfo", 10);
+            hmd_pub = node.advertise<oculus_msgs::HMDInfo>("/oculus/hmd_info", 10);
         }
         else
         {
