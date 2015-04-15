@@ -20,16 +20,15 @@ namespace oculus_viewer
         const double centering_offset_y =(display_size_.height - dst_right.rows) / 2;
 
         cv::Mat combined(display_size_.height,display_size_.width,dst_right.type());
-        cv::Mat roi_right = combined(cv::Rect(display_offset_x_/2 + display_offset_x_/2,
-                            display_offset_y_ + centering_offset_y,
-                            dst_right.cols,
-                            dst_right.rows));
-
-        dst_right.copyTo(roi_right);
-        cv::Mat roi_left = combined(cv::Rect(display_size_.width/2 - display_offset_x_/2,
+        cv::Mat roi_right = combined(cv::Rect(display_size_.width/2 - display_offset_x_/2,
                             centering_offset_y,
                             dst_left.cols,
                             dst_left.rows));
+        dst_right.copyTo(roi_right);
+        cv::Mat roi_left = combined(cv::Rect(display_offset_x_/2 + display_offset_x_/2,
+                            display_offset_y_ + centering_offset_y,
+                            dst_right.cols,
+                            dst_right.rows));
         dst_left.copyTo(roi_left);
         cv::imshow(window_name_, combined);
     }
